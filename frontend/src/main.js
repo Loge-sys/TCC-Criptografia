@@ -1,11 +1,17 @@
-import './assets/main.css'
+import './assets/styles.css'
+import 'bootstrap/dist/css/bootstrap.css';
 
 import { createApp } from 'vue'
 import App from './App.vue'
-import router from './router'
+import router from './router/index'
 
-const app = createApp(App)
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import { faArrowLeft, faHouse } from '@fortawesome/free-solid-svg-icons'
 
-app.use(router)
+library.add(faArrowLeft, faHouse)
 
-app.mount('#app')
+createApp(App)
+.component('font-awesome-icon', FontAwesomeIcon)
+.use(router)
+.mount('#app')

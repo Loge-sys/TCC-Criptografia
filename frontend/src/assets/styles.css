@@ -1,0 +1,182 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  font-family: "Montserrat", sans-serif;
+}
+
+body {
+  margin: 0;
+  height: 100vh;
+  background: linear-gradient(
+    62deg,
+    rgba(0, 255, 163, 1) 0%,
+    rgba(0, 224, 255, 1) 100%
+  );
+}
+
+h1 {
+  font-weight: bold !important;
+  font-size: 55px !important;
+}
+
+h3 {
+  font-weight: 600 !important;
+  color: #504f4f !important;
+}
+
+.nav-menu {
+  display: flex;
+  text-align: center;
+  justify-content: center;
+}
+
+.nav-menu button {
+  color: #000;
+  font-weight: 600;
+  border: none;
+  border-radius: 6px;
+  background: #fff;
+  margin: 10px 10px 10px 0px;
+  width: 170px;
+  padding: 18px;
+}
+
+.nav-menu button:hover {
+  background: #dedede;
+}
+
+.boxLayout {
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.box {
+  background: #fff;
+  border-radius: 7px;
+  max-height: 100%;
+  margin: auto;
+  padding: 20px;
+  width: 55%;
+}
+
+.box-back {
+  width: 46px;
+  height: 46px;
+  display: flex;
+  justify-content: center;
+  border: 1px solid #dedede;
+  padding: 5px;
+  border-radius: 60px;
+}
+
+.box-title {
+  font-size: 30px;
+}
+
+.box-content {
+  margin-top: 10px;
+  text-align: center;
+  line-height: 30px;
+}
+
+.box-content h3 {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.box-content span {
+  text-align: initial;
+  color: #918888;
+  margin-top: 10px;
+}
+
+.box-content textarea {
+  width: 65%;
+  height: 100px;
+  background: #f0f0f0;
+  border: 1px solid #dedede;
+  border-radius: 4px;
+}
+
+.box-keys {
+  margin: 20px 0 20px 0;
+}
+
+.box-keys p,
+span,
+input {
+  color: #918888;
+  margin-bottom: 0px;
+}
+
+.box-keys input {
+  background-color: #f0f0f0;
+  border: none;
+  border-radius: 4px;
+  padding: 5px;
+  width: 65%;
+}
+
+.box-button {
+  color: #fff;
+  font-weight: 600;
+  padding: 10px;
+  width: 40%;
+  border: none;
+  border-radius: 6px;
+  background: linear-gradient(
+    100deg,
+    rgba(46, 236, 168, 1) 0%,
+    rgba(25, 231, 207, 1) 50%,
+    rgba(0, 224, 255, 1) 100%
+  );
+}
+
+.box-button:hover {
+  background: linear-gradient(
+    100deg,
+    rgb(43, 226, 162) 0%,
+    rgb(30, 211, 190) 50%,
+    rgb(0, 215, 244) 100%
+  );
+}
+
+@media (max-width: 768px) {
+  .box {
+    max-width: 100%;
+    width: 100%;
+    height: auto !important;
+  }
+
+  .box-content textarea {
+    width: 100%;
+  }
+
+  .box-button {
+    width: auto !important;
+  }
+
+  .box-keys input {
+    width: 93%;
+  }
+
+}
+
+@media (max-width: 990px) {
+  .box {
+    max-width: 100%;
+    height: auto !important;
+  }
+
+  .box-button {
+    width: auto !important;
+  }
+
+}
+
+.active {
+  background: #dedede!important;
+}
