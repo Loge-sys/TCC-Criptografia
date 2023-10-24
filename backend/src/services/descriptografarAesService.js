@@ -1,3 +1,5 @@
+const decryptRSA = require('../services/descriptografarRSAService')
+
 
 const renderDecryptedMessage = (data) => {
 
@@ -177,7 +179,14 @@ function decryptMessage (data) {
 
     // Chave e IV
     let iv = [0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f];
+
+
+    let randomKeyRecievedEncrypted = decryptRSA(data.key, data.privateKey)
+
+    console.log(randomKeyRecievedEncrypted)
+
     let randomKeyRecieved = hexToUint8Array(data.key);
+    
 
     // Dados a serem cifrados
     let recievedMessage = data.message;
@@ -187,9 +196,6 @@ function decryptMessage (data) {
     // Decifrar os dados
     let decryptedData = aes256CBCDecrypt(encryptedUint8Array, randomKeyRecieved, iv);
 
-    console.log('Antes:', encryptedUint8Array)
-    
-    console.log(decryptedData)
     // Converter os bytes decifrados de volta para a string original
     let textDecoder = new TextDecoder();
     let decryptedString = textDecoder.decode(decryptedData);

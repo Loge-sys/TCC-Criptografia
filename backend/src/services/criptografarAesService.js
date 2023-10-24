@@ -1,3 +1,5 @@
+const encryptRSA = require('../services/criptografarRSAService')
+
 const renderEncryptedMessage = (data) => {
 
     const result = encryptMessage(data)
@@ -208,7 +210,6 @@ function encryptMessage (data) {
         randomKey.push(Math.floor(pseudoRandom(seed) * 256)); // Converter para um byte (0-255)
     }
 
-
     // IV
     let iv = [0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f];
 
@@ -227,9 +228,13 @@ function encryptMessage (data) {
 
     let encryptedHex = uint8ArrayToHex(encryptedDataWithIV);
 
-    let randomKeyHex = uint8ArrayToHex(randomKey);
+    let randomKeyHex = uint8ArrayToHex(randomKey)
 
-    return { message: encryptedHex, key: randomKeyHex }
+    let randomKeyForUser = encryptRSA(randomKeyHex, data.publicKey);
+
+    return { message: encryptedHex, key: randomKeyForUser }
 }
+
+
 
 module.exports = { renderEncryptedMessage }

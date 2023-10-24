@@ -1,5 +1,6 @@
 const criptografarAesService = require('../services/criptografarAesService')
 const descriptografarAesService = require('../services/descriptografarAesService')
+const gerarChavesRSAService =  require('../services/gerarChavesRSAService')
 
 const getEncryptedMessage = (req, res) => {
     const encryptedMessage = criptografarAesService.renderEncryptedMessage(req.body)
@@ -13,4 +14,14 @@ const getDecryptedMessage = (req, res) => {
     return res.status(200).send({ decryptedMessage: decryptedMessage.message })
 }
 
-module.exports = { getEncryptedMessage, getDecryptedMessage }
+const getGenerateKeys = (req, res) => {
+    const keys = gerarChavesRSAService.renderGenerateKeys()
+
+    return res.status(200).send({ privateKey: keys.privateKey, publicKey: keys.publicKey})
+}
+
+module.exports = { 
+    getEncryptedMessage, 
+    getDecryptedMessage, 
+    getGenerateKeys 
+}

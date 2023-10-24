@@ -1,3 +1,15 @@
+const renderGenerateKeys = () => {
+    const bit_length = 25;
+    const [{ e, n: publicN }, { d, n: privateN }] = generate_keypair(bit_length);
+
+    // Convertendo os valores BigInt para números
+    const publicKey = `${String(e)}#${String(publicN)}`
+    const privateKey = `${String(d)}#${String(privateN)}`
+
+    // Retornando ambas as chaves dentro de uma propriedade "keys"
+    return { privateKey: privateKey, publicKey: publicKey };
+}
+
 // Função para calcular o maior divisor comum (GCD)
 function gcd(a, b) {
     a = BigInt(a);
@@ -97,27 +109,8 @@ function generate_keypair(keysize) {
         [d] = [mod_inverse(e, phi)];
     } while (g !== 1n || e === d);
 
+    
     return [{ e, n }, { d, n }];
-}
-
-// Função para criptografar uma mensagem
-function encrypt(msg_plaintext, publicKey) {
-    const { e, n } = publicKey;
-    const msg_ciphertext = [];
-    for (const c of msg_plaintext) {
-        msg_ciphertext.push(BigInt(modPow(c.charCodeAt(0), e, n)));
-    }
-    return msg_ciphertext;
-}
-
-// Função para descriptografar uma mensagem
-function decrypt(msg_ciphertext, privateKey) {
-    const { d, n } = privateKey;
-    const msg_plaintext = [];
-    for (const c of msg_ciphertext) {
-        msg_plaintext.push(String.fromCharCode(Number(modPow(c, d, n))));
-    }
-    return msg_plaintext.join('');
 }
 
 // Função para elevar a uma potência com módulo
@@ -145,21 +138,4 @@ function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-// Driver program
-async function main() {
-    const bit_length = 25;
-    console.log("Running RSA...");
-    console.log("Generating public/private keypair...");
-    const [publicKey, privateKey] = generate_keypair(bit_length);
-    console.log("Public Key:", publicKey);
-    console.log("Private Key:", privateKey);
-    const msg = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.";
-    // console.log([...msg].map(c => c.charCodeAt(0)));
-    const encrypted_msg = encrypt(msg, publicKey);
-    console.log("Encrypted msg:");
-    console.log(encrypted_msg.map(c => c.toString()).join(''));
-    console.log("Decrypted msg:");
-    console.log(decrypt(encrypted_msg, privateKey));
-}
-
-main();
+module.exports = { renderGenerateKeys }
