@@ -1,18 +1,19 @@
-// Função para descriptografar uma mensagem
 function decryptRSA(msg_ciphertext, privateKey) {
-    console.log(msg_ciphertext)
-    console.log(privateKey)
-    let splitValues = privateKey.split('#')
-    const d = BigInt(splitValues[0])
-    const n = BigInt(splitValues[1])
-    let msg_plaintext = ''
-    for (const c of msg_ciphertext) {
-        const decryptedChar = String.fromCharCode(Number(modPow(c, d, n)))
-        msg_plaintext += decryptedChar
-    }
-    return msg_plaintext;
-}
+    let splitValues = privateKey.split('#');
+    const d = BigInt(splitValues[0]);
+    const n = BigInt(splitValues[1]);
+    let msg_plaintext = [];
 
+    const parts = msg_ciphertext.split("#");
+    const lastPart = parts.pop();
+    const concatenatedString = parts.join("#") + lastPart;
+    const charList = concatenatedString.split("#").map(x => BigInt(x))
+    for (const c of charList) {
+        msg_plaintext.push(String.fromCharCode(Number(modPow(c, d, n))));
+    }
+
+    return msg_plaintext.join('');
+}
 // Função para elevar a uma potência com módulo
 function modPow(base, exp, mod) {
     base = BigInt(base); 

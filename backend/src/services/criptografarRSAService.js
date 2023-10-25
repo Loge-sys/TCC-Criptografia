@@ -2,11 +2,12 @@ const encryptRSA = (msg_plaintext, publicKey) => {
     let splitValues = publicKey.split('#');
     const e = BigInt(splitValues[0]);
     const n = BigInt(splitValues[1]);
-    let msg_ciphertext = ''
+    let msg_ciphertext = '';
     for (const c of msg_plaintext) {
-        const encryptedChar = modPow(BigInt(c.charCodeAt(0)), e, n).toString();
-        msg_ciphertext += encryptedChar
+        msg_ciphertext += BigInt(modPow(c.charCodeAt(0), e, n));
+        msg_ciphertext += "#";
     }
+
     return msg_ciphertext;
 }
 

@@ -1,13 +1,9 @@
 const renderGenerateKeys = () => {
     const bit_length = 25;
-    const [{ e, n: publicN }, { d, n: privateN }] = generate_keypair(bit_length);
-
-    // Convertendo os valores BigInt para números
-    const publicKey = `${String(e)}#${String(publicN)}`
-    const privateKey = `${String(d)}#${String(privateN)}`
+    const [publicKey, privateKey] = generate_keypair(bit_length);
 
     // Retornando ambas as chaves dentro de uma propriedade "keys"
-    return { privateKey: privateKey, publicKey: publicKey };
+    return { privateKey: `${privateKey.dNumber}#${privateKey.nNumber}`, publicKey: `${publicKey.eNumber}#${publicKey.nNumber}` };
 }
 
 // Função para calcular o maior divisor comum (GCD)
@@ -109,27 +105,14 @@ function generate_keypair(keysize) {
         [d] = [mod_inverse(e, phi)];
     } while (g !== 1n || e === d);
 
+    let eNumber = Number(e)
+    let nNumber = Number(n)
+    let dNumber = Number(d)
+
     
-    return [{ e, n }, { d, n }];
+    return [{ eNumber, nNumber }, { dNumber, nNumber }];
 }
 
-// Função para elevar a uma potência com módulo
-function modPow(base, exp, mod) {
-    base = BigInt(base); 
-    exp = BigInt(exp);   
-    mod = BigInt(mod);   
-
-    let result = BigInt(1);
-    base = base % mod;
-    while (exp > BigInt(0)) {
-        if (exp % BigInt(2) === BigInt(1)) {
-            result = (result * base) % mod;
-        }
-        exp = exp >> BigInt(1);
-        base = (base * base) % mod;
-    }
-    return result;
-}
 
 // Função para gerar um número inteiro aleatório no intervalo [min, max]
 function getRandomInt(min, max) {

@@ -191,7 +191,10 @@ function encryptMessage (data) {
 
 
     function uint8ArrayToHex(uint8Array) {
-        return Array.from(uint8Array).map(byte => ('0' + byte.toString(16)).slice(-2)).join('');
+        return Array.from(uint8Array)
+            .map(byte => ('0' + byte.toString(16)).slice(-2))
+            .join('')
+            .padStart(Math.ceil(uint8Array.length * 2), '0');
     }
 
 
@@ -230,9 +233,14 @@ function encryptMessage (data) {
 
     let randomKeyHex = uint8ArrayToHex(randomKey)
 
-    let randomKeyForUser = encryptRSA(randomKeyHex, data.publicKey);
+    console.log('RandomKey:' + randomKey)
+    console.log('RandomKeyHex' + randomKeyHex)
 
-    return { message: encryptedHex, key: randomKeyForUser }
+    let randomKeyForUserEncrypeted = encryptRSA(randomKeyHex, data.publicKey);
+
+    console.log('randomKeyForUserEncrypeted' + randomKeyForUserEncrypeted)
+
+    return { message: encryptedHex, key: randomKeyForUserEncrypeted }
 }
 
 

@@ -183,9 +183,7 @@ function decryptMessage (data) {
 
     let randomKeyRecievedEncrypted = decryptRSA(data.key, data.privateKey)
 
-    console.log(randomKeyRecievedEncrypted)
-
-    let randomKeyRecieved = hexToUint8Array(data.key);
+    let randomKeyRecieved = hexToUint8Array(randomKeyRecievedEncrypted);
     
 
     // Dados a serem cifrados
