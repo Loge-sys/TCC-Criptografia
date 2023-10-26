@@ -25,12 +25,24 @@
             <div class="box-content">
               <h3>Descriptografar mensagem</h3>
               <span>
-                Insira abaixo a chave privada da mensagem na qual você deseja descriptografar.</span><br />
+                Insira abaixo a chave privada da mensagem na qual você deseja descriptografar.
+              </span>
+              <br />
+              <span>Mensagem criptograda:</span><br />
+              <textarea v-model="message"></textarea>
             </div>
             <div class="box-keys">
-              <p>Chave Privada: </p> <input v-model="text" ref="button" placeholder="DKFSFKSGK" id="keypr" disabled>
+              <p>Chave Privada: </p> <input v-model="privateKey" ref="button" id="keypr">
             </div>
-            <input class="box-button" type="button" value="DESCRIPTOGRAFAR" @click="teste" />
+              <div class="box-content">
+              <span>Chave criptografada:</span><br />
+              <textarea v-model="encrypetedKey"></textarea>
+            </div>
+            <input class="box-button" type="button" value="DESCRIPTOGRAFAR" @click="descriptografar" />
+            <div v-show="buscou" class="box-content">
+              <span>Mensagem descriptograda:</span><br />
+              <textarea v-model="decryptedMessage" readonly></textarea>
+            </div>
           </div>
         </div>
       </div>
@@ -39,10 +51,30 @@
 </template>
   
 <script>
+import { URL } from '../webservice/index'
+import axios from 'axios'
 export default {
+  data: function () {
+      return {
+        privateKey: '',
+        message: '',
+        loading: false,
+        buscou: false,
+        decryptedMessage: ''
+      }
+    },
   methods: {
-    teste() {
-      alert("teste");
+    async descriptografar() {
+      try {
+          this.loading = false
+          const res = await axios.post(`${URL}/decrypt-message`, { privateKey: this.privateKey, message: this.message, key: this.encrypetedKey })
+          this.decryptedMessage = res.data.decryptedMessage
+          if (res) this.buscou = true
+        } catch (error) {
+          console.log(error)
+        } finally {
+          this.loading = false
+        }
     },
     navigateTo(route) {
       this.$router.push(route);

@@ -1,5 +1,6 @@
 <template>
   <div class="app">
+  
     <div class="container">
       <div class="row">
         <div class="col-md-12 nav-menu">
@@ -28,12 +29,14 @@
               <br>
             </div>
             <div class="box-keys">
-              <span>Chave Pública:</span> <input v-model="text" ref="button" placeholder="DKFSFKSGK" id="keypu" disabled>
+              <span>Chave Pública:</span> <input v-model="publicKey" ref="button" id="keypu" readonly>
               <br />
-              <span>Chave Privada: </span> <input v-model="text" ref="button" placeholder="DKFSFKSGK" id="keypr" disabled>
+              <span>Chave Privada: </span> <input v-model="privateKey" ref="button" id="keypr" readonly>
               <p>Clique abaixo para gerar suas chaves:</p>
+              <div v-show="loading" class="spinner-border" role="status"/>
             </div>
-            <input class="box-button" type="button" value="GERAR" @click="teste" />
+            
+            <input class="box-button" type="button" value="GERAR" @click="gerarChaves" :disabled="loading" />
           </div>
         </div>
       </div>
@@ -42,14 +45,33 @@
 </template>
 
 <script>
+import { URL } from '../webservice/index'
+import axios from 'axios'
 export default {
+  data: function () {
+    return {
+      publicKey: '',
+      privateKey: '',
+      loading: false
+    }
+  },
   methods: {
-    teste() {
-      alert("Sua chave privada foi gerada com sucesso. Por favor, salve-a em um local seguro!");
+    async gerarChaves() {
+      try {
+        this.loading = true
+        const res = await axios.get(`${URL}/generate-keys`)
+        this.publicKey = res.data.publicKey
+        this.privateKey = res.data.privateKey
+      } catch (error) {
+        console.log(error)
+      } finally {
+        this.loading = false
+      }
+      
     },
     navigateTo(route) {
       this.$router.push(route);
-    },
+    }
   },
 };
 </script>

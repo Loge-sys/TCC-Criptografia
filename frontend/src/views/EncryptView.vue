@@ -30,15 +30,26 @@
               <span>Mensagem:</span><br />
               <textarea v-model="message"></textarea>
             </div>
-
-
-
             <div class="box-keys">
               <p>Chave Pública:</p>
-              <input v-model="text" ref="button" placeholder="DKFSFKSGK" id="keypu" disabled>
+              <input v-model="publicKey" ref="button" id="keypu">
+              <br />
+              <div v-show="loading" class="spinner-border" role="status"/>
+            </div>
+           <input class="box-button" type="button" value="CRIPTOGRAFAR" @click="criptografar" />
+
+            <div v-show="buscou" class="box-content">
+              <p>Mensagem criptografada:</p>
+              <textarea v-model="encryptedMessage"></textarea>
               <br />
             </div>
-            <input class="box-button" type="button" value="CRIPTOGRAFAR" @click="teste" />
+            <div v-show="buscou" class="box-content">
+              <p>Chave criptografada: </p>
+              <p>Observação: você vai precisar dessa chave para descriptografar a mensagem também. </p>
+              <textarea v-model="encryptedKey"></textarea>
+              <br />
+            </div>
+             
           </div>
         </div>
       </div>
@@ -47,15 +58,39 @@
 </template>
   
 <script>
-export default {
-  methods: {
-    teste() {
-      alert("teste");
+
+  import { URL } from '../webservice/index'
+  import axios from 'axios'
+
+  export default {
+    data: function () {
+      return {
+        publicKey: '',
+        message: '',
+        loading: false,
+        buscou: false,
+        encryptedMessage: '',
+        encryptedKey: ''
+      }
     },
-    navigateTo(route) {
-      this.$router.push(route);
+    methods: {
+      async criptografar() {
+        try {
+          this.loading = false
+          const res = await axios.post(`${URL}/encrypt-message`, { publicKey: this.publicKey, message: this.message })
+          this.encryptedMessage = res.data.encryptedMessage
+          this.encryptedKey = res.data.encryptedKey
+          if (res) this.buscou = true
+        } catch (error) {
+          console.log(error)
+        } finally {
+          this.loading = false
+        }
+      },
+      navigateTo(route) {
+        this.$router.push(route);
+      },
     },
-  },
-};
+  };
 </script>
   
