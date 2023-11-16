@@ -14,7 +14,7 @@ const getDecryptedMessage = (req, res) => {
     return res.status(200).send({ decryptedMessage: decryptedMessage.message })
 }
 
-const getGenerateKeys = (req, res) => {
+const getGeneratedKeys = (req, res) => {
     const keys = gerarChavesRSAService.renderGenerateKeys()
     return res.status(200).send({ privateKey: keys.privateKey, publicKey: keys.publicKey})
 }
@@ -22,5 +22,5 @@ const getGenerateKeys = (req, res) => {
 module.exports = { 
     getEncryptedMessage, 
     getDecryptedMessage, 
-    getGenerateKeys 
+    getGeneratedKeys 
 }
