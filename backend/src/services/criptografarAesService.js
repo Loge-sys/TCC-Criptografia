@@ -233,12 +233,7 @@ function encryptMessage (data) {
 
     let randomKeyHex = uint8ArrayToHex(randomKey)
 
-    console.log('RandomKey:' + randomKey)
-    console.log('RandomKeyHex' + randomKeyHex)
-
     let randomKeyForUserEncrypeted = encryptRSA(randomKeyHex, data.publicKey);
-
-    console.log('randomKeyForUserEncrypeted' + randomKeyForUserEncrypeted)
 
     return { message: encryptedHex, key: randomKeyForUserEncrypeted }
 }

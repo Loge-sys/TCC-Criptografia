@@ -1,31 +1,25 @@
-const encryptRSA = (msg_plaintext, publicKey) => {
-    let splitValues = publicKey.split('#');
-    const e = BigInt(splitValues[0]);
-    const n = BigInt(splitValues[1]);
-    let msg_ciphertext = '';
-    for (const c of msg_plaintext) {
-        msg_ciphertext += BigInt(modPow(c.charCodeAt(0), e, n));
-        msg_ciphertext += "#";
-    }
+const bigInt = require("big-integer");
 
-    return msg_ciphertext;
+const encryptRSA = (message, publicKeyHex) => {
+    const publicKey = hexToObject(publicKeyHex);
+    const { n, e } = publicKey;
+    const cipherText = message
+        .split('')
+        .map(char => bigInt(char.charCodeAt(0)).modPow(e, n).toString());
+
+    return objectToHex(cipherText);
 }
 
-function modPow(base, exp, mod) {
-    base = BigInt(base); 
-    exp = BigInt(exp);   
-    mod = BigInt(mod);   
+function objectToHex(obj) {
+    const jsonString = JSON.stringify(obj);
+    const hexString = Buffer.from(jsonString, 'utf-8').toString('hex');
+    return hexString;
+  }
 
-    let result = BigInt(1);
-    base = base % mod;
-    while (exp > BigInt(0)) {
-        if (exp % BigInt(2) === BigInt(1)) {
-            result = (result * base) % mod;
-        }
-        exp = exp >> BigInt(1);
-        base = (base * base) % mod;
-    }
-    return result;
-}
+function hexToObject(hexString) {
+    const jsonString = Buffer.from(hexString, 'hex').toString('utf-8');
+    const obj = JSON.parse(jsonString);
+    return obj;
+  }
 
 module.exports = encryptRSA;

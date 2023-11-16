@@ -16,8 +16,6 @@ const getDecryptedMessage = (req, res) => {
 
 const getGenerateKeys = (req, res) => {
     const keys = gerarChavesRSAService.renderGenerateKeys()
-    console.log(keys)
-
     return res.status(200).send({ privateKey: keys.privateKey, publicKey: keys.publicKey})
 }
 
