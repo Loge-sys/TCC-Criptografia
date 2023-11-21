@@ -77,6 +77,7 @@
             autoClose: 3000,
           });
         } catch (error) {
+          this.buscou = false
           toast("Erro ao descriptografar a mensagem, verifique os campos e/ou as chaves inseridas!", {
             autoClose: 3000,
           });
