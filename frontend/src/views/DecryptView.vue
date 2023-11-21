@@ -31,8 +31,9 @@
               <span>Mensagem criptograda:</span><br />
               <textarea v-model="message"></textarea>
             </div>
-            <div class="box-keys">
-              <p>Chave Privada: </p> <input v-model="privateKey" ref="button" id="keypr">
+            <div class="box-content">
+              <p>Chave Privada: </p>
+              <textarea v-model="privateKey"></textarea>
             </div>
               <div class="box-content">
               <span>Chave criptografada:</span><br />
@@ -51,18 +52,20 @@
 </template>
   
 <script>
-import { URL } from '../webservice/index'
-import axios from 'axios'
-export default {
+  import { URL } from '../webservice/index'
+  import axios from 'axios'
+  import { toast } from 'vue3-toastify';
+  import 'vue3-toastify/dist/index.css';
+  export default {
   data: function () {
-      return {
-        privateKey: '',
-        message: '',
-        loading: false,
-        buscou: false,
-        decryptedMessage: ''
-      }
-    },
+        return {
+          privateKey: '',
+          message: '',
+          loading: false,
+          buscou: false,
+          decryptedMessage: ''
+        }
+  },
   methods: {
     async descriptografar() {
       try {
@@ -70,8 +73,13 @@ export default {
           const res = await axios.post(`${URL}/decrypt-message`, { privateKey: this.privateKey, message: this.message, key: this.encrypetedKey })
           this.decryptedMessage = res.data.decryptedMessage
           if (res) this.buscou = true
+          toast("Mensagem descriptografada com sucesso!", {
+            autoClose: 3000,
+          });
         } catch (error) {
-          console.log(error)
+          toast("Erro ao descriptografar a mensagem, verifique os campos e/ou as chaves inseridas!", {
+            autoClose: 3000,
+          });
         } finally {
           this.loading = false
         }

@@ -30,9 +30,9 @@
               <span>Mensagem:</span><br />
               <textarea v-model="message"></textarea>
             </div>
-            <div class="box-keys">
+            <div class="box-content">
               <p>Chave Pública:</p>
-              <input v-model="publicKey" ref="button" id="keypu">
+              <textarea v-model="publicKey"></textarea>
               <br />
               <div v-show="loading" class="spinner-border" role="status"/>
             </div>
@@ -61,6 +61,8 @@
 
   import { URL } from '../webservice/index'
   import axios from 'axios'
+  import { toast } from 'vue3-toastify';
+  import 'vue3-toastify/dist/index.css';
 
   export default {
     data: function () {
@@ -81,8 +83,13 @@
           this.encryptedMessage = res.data.encryptedMessage
           this.encryptedKey = res.data.encryptedKey
           if (res) this.buscou = true
+          toast("Mensagem criptografada com sucesso!", {
+            autoClose: 3000,
+          });
         } catch (error) {
-          console.log(error)
+          toast("Erro ao criptografar a mensagem, verifique os campos e/ou as chaves inseridas!", {
+            autoClose: 3000,
+          });
         } finally {
           this.loading = false
         }

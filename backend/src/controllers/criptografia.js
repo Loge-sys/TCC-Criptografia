@@ -1,26 +1,40 @@
-const criptografarAesService = require('../services/criptografarAesService')
-const descriptografarAesService = require('../services/descriptografarAesService')
-const gerarChavesRSAService =  require('../services/gerarChavesRSAService')
+const criptografarAesService = require("../services/criptografarAesService");
+const descriptografarAesService = require("../services/descriptografarAesService");
+const gerarChavesRSAService = require("../services/gerarChavesRSAService");
 
 const getEncryptedMessage = (req, res) => {
-    const encryptedMessage = criptografarAesService.renderEncryptedMessage(req.body)
+  const encryptedMessage = criptografarAesService.renderEncryptedMessage(
+    req.body
+  );
 
-    return res.status(200).send({ encryptedMessage: encryptedMessage.message, encryptedKey: encryptedMessage.key })
-}
+  return res
+    .status(200)
+    .send({
+      encryptedMessage: encryptedMessage.message,
+      encryptedKey: encryptedMessage.key,
+    });
+};
 
 const getDecryptedMessage = (req, res) => {
-    const decryptedMessage = descriptografarAesService.renderDecryptedMessage(req.body)
+  const decryptedMessage = descriptografarAesService.renderDecryptedMessage(
+    req.body
+  );
 
-    return res.status(200).send({ decryptedMessage: decryptedMessage.message })
-}
+    if (decryptedMessage.message === 'erro') return res.status(400).send({ decryptedMessage: 'Erro teste' });
+
+    return res.status(200).send({ decryptedMessage: decryptedMessage.message });
+
+};
 
 const getGeneratedKeys = (req, res) => {
-    const keys = gerarChavesRSAService.renderGenerateKeys()
-    return res.status(200).send({ privateKey: keys.privateKey, publicKey: keys.publicKey})
-}
+  const keys = gerarChavesRSAService.renderGenerateKeys();
+  return res
+    .status(200)
+    .send({ privateKey: keys.privateKey, publicKey: keys.publicKey });
+};
 
-module.exports = { 
-    getEncryptedMessage, 
-    getDecryptedMessage, 
-    getGeneratedKeys 
-}
+module.exports = {
+  getEncryptedMessage,
+  getDecryptedMessage,
+  getGeneratedKeys,
+};

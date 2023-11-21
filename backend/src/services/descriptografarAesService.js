@@ -1,6 +1,4 @@
 const decryptRSA = require('../services/descriptografarRSAService')
-
-
 const renderDecryptedMessage = (data) => {
 
     const result = decryptMessage(data)
@@ -113,6 +111,33 @@ function decryptMessage (data) {
         return roundKeys;
     }
 
+    
+ function isValidUTF8(str) {
+    let i = 0;
+    while (i < str.length) {
+        let byte = str.charCodeAt(i);
+
+        if (byte <= 0x7F) {
+            // 1 byte (0xxxxxxx)
+            i++;
+        } else if (byte <= 0xDF && byte >= 0xC2) {
+            // 2 bytes (110xxxxx 10xxxxxx)
+            i += 2;
+        } else if (byte <= 0xEF && byte >= 0xE0) {
+            // 3 bytes (1110xxxx 10xxxxxx 10xxxxxx)
+            i += 3;
+        } else if (byte <= 0xF4 && byte >= 0xF0) {
+            // 4 bytes (11110xxx 10xxxxxx 10xxxxxx 10xxxxxx)
+            i += 4;
+        } else {
+            // Caractere inválido encontrado
+            return false;
+        }
+    }
+
+    return true;
+}
+
     // Função principal para decifrar dados usando AES 256 CBC
     function aes256CBCDecrypt(dataWithIV, key, iv) {
         // Separar IV dos dados cifrados
@@ -182,6 +207,13 @@ function decryptMessage (data) {
 
 
     let randomKeyRecievedEncrypted = decryptRSA(data.key, data.privateKey)
+
+    console.log('Teste:' + randomKeyRecievedEncrypted)
+    
+    if (!isValidUTF8(randomKeyRecievedEncrypted)) {
+        return { message: 'erro' };
+        
+    }
 
     let randomKeyRecieved = hexToUint8Array(randomKeyRecievedEncrypted);
     

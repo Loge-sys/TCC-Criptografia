@@ -28,15 +28,16 @@
               </p>
               <br>
             </div>
-            <div class="box-keys">
-              <span>Chave Pública:</span> <input v-model="publicKey" ref="button" id="keypu" readonly>
+            <div class="box-content">
+              <span>Chave Pública:</span><br />
+              <textarea v-model="publicKey" readonly></textarea>
               <br />
-              <span>Chave Privada: </span> <input v-model="privateKey" ref="button" id="keypr" readonly>
-              <p>Clique abaixo para gerar suas chaves:</p>
+              <span>Chave Privada: </span><br />
+              <textarea v-model="privateKey" readonly></textarea>
               <div v-show="loading" class="spinner-border" role="status"/>
             </div>
             
-            <input class="box-button" type="button" value="GERAR" @click="gerarChaves" :disabled="loading" />
+            <input class="box-button" type="button" value="GERAR CHAVES" @click="gerarChaves" :disabled="loading" />
           </div>
         </div>
       </div>
@@ -47,6 +48,8 @@
 <script>
 import { URL } from '../webservice/index'
 import axios from 'axios'
+import { toast } from 'vue3-toastify';
+import 'vue3-toastify/dist/index.css';
 export default {
   data: function () {
     return {
@@ -62,6 +65,9 @@ export default {
         const res = await axios.get(`${URL}/generate-keys`)
         this.publicKey = res.data.publicKey
         this.privateKey = res.data.privateKey
+        toast("Chaves geradas com sucesso!", {
+          autoClose: 3000,
+        });
       } catch (error) {
         console.log(error)
       } finally {
