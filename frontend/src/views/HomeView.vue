@@ -34,10 +34,11 @@
               <br />
               <span>Chave Privada: </span><br />
               <textarea v-model="privateKey" readonly></textarea>
+              <p>Clique abaixo para gerar suas chaves:</p>
               <div v-show="loading" class="spinner-border" role="status"/>
             </div>
             
-            <input class="box-button" type="button" value="GERAR CHAVES" @click="gerarChaves" :disabled="loading" />
+            <input class="box-button" type="button" value="GERAR" @click="gerarChaves" :disabled="loading" />
           </div>
         </div>
       </div>
