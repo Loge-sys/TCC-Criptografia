@@ -76,7 +76,7 @@ function encryptMessage (data) {
                 carry = a & 0x80;
                 a <<= 1;
                 if (carry) {
-                    a ^= 0x1b; // irreducible polynomial: x^8 + x^4 + x^3 + x + 1
+                    a ^= 0x1b;
                 }
                 b >>= 1;
             }
