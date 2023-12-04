@@ -8,12 +8,8 @@
 
 body {
   margin: 0;
-  height: 100vh;
-  background: linear-gradient(
-    62deg,
-    rgba(0, 255, 163, 1) 0%,
-    rgba(0, 224, 255, 1) 100%
-  );
+  min-height: 100vh;
+  background: linear-gradient(61deg, rgba(32,255,108,1) 0%, rgba(0,209,255,1) 100%);
 }
 
 h1 {
@@ -91,6 +87,10 @@ h3 {
   text-align: initial;
   color: #918888;
   margin-top: 10px;
+}
+
+.box-content p{
+  color: #918888;
 }
 
 .box-content textarea {
